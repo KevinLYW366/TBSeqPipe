@@ -57,11 +57,11 @@ A pre-built 8 GB database [MiniKraken DB_8GB](https://ccb.jhu.edu/software/krake
 To run the complete workflow do the following:
 
 * Create an sample list file for all the samples you want to analyze with one ID per line.
-* Copy all `.fastq.gz` files of your samples into one directory (ID_1.fastq.gz, ID_2.fastq.gz)
+* Copy all FASTQ files of your samples into one directory.
 * Customize the workflow based on your need in: `config/configfile.yaml`. Parameters in "Required Parameters" section must be entered manually:
   * `sample_list`: `/path/to/sample_list_file`
   * `data_dir`: `/path/to/fastq_files`
-  * `fastq_read_id_format`, `fastq_suffix_format` and `data_dir_format`: give values based on the file directory structure of data_dir and the format of FASTQ file names
+  * `fastq_read_id_format`, `fastq_suffix_format` and `data_dir_format`: give values based on the FASTQ file directory structure and the format of FASTQ file names
   * `kraken_db`: `/path/to/minikraken_20171019_8GB`
 
 ## Usage
