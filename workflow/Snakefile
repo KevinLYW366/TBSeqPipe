@@ -1,0 +1,98 @@
+"""
+TBSeqPipe
+A snakemake workflow for analyzing illumina WGS data of Mycobacterium Tuberculosis
+
+Workflow includes:
+    0. Raw data cleaning
+        0.1 Fastp: data cleaning (OPTIONAL)
+        0.2 Kraken: the percentage of reads to MTBC detection
+        0.3 FastQC & MultiQC: fastq reads quality control
+    1. Alignment
+        1.1 BWA: reads mapping
+        1.2 Qualimap & MultiQC: BAM files quality control
+    2. SNP calling and filtering
+    3. VCF files merging
+    4. SNP distance calculation (M.canettii added)
+    5. TB-Profiler analysis
+        5.1 Lineage typing
+        5.2 Drug resistance detection
+    6. Phylogenetic tree construction
+    7. Mixed infection detection
+    8. Summary report output
+"""
+
+##################
+# Common modules #
+##################
+include: "rules/common.smk"
+
+################
+# Target rules #
+################
+# Final output of the workflow
+## Modify this value to control which part of the workflow will be run
+rule all:
+    input:
+        # Step 00.data_cleaning
+        ## Kraken QC result
+        "results/00.data_cleaning/kraken.result",
+        ## MultiQC report
+        "results/00.data_cleaning/multiqc/multiqc_report.html",
+
+        # Step 01.alignment
+        ## MultiQC report
+        "results/01.alignment/multiqc/multiqc_report.html",
+        ## final alignment BAM and BAI files
+        lambda wildcards: get_qualified_results("results/01.alignment/{sample}/{sample}_final.bam", wildcards),
+        lambda wildcards: get_qualified_results("results/01.alignment/{sample}/{sample}_final.bam.bai", wildcards),
+
+        # Step 02.snp_calling
+        ## annotated fSNP, vSNP and INDEL vcf files
+        lambda wildcards: get_qualified_results("results/02.snp_calling/{sample}/{sample}_fSNP.flt.ann.vcf", wildcards),
+        lambda wildcards: get_qualified_results("results/02.snp_calling/{sample}/{sample}_vSNP.flt.ann.vcf", wildcards),
+        lambda wildcards: get_qualified_results("results/02.snp_calling/{sample}/{sample}_indel.flt.ann.vcf", wildcards),
+
+        # Step 03.vcf_merging
+        ## merged annotated fSNP, vSNP and INDEL vcf files
+        "results/03.vcf_merging/merged_fsnp.ann.vcf",
+        "results/03.vcf_merging/merged_vsnp.ann.vcf",
+        "results/03.vcf_merging/merged_indel.ann.vcf",
+
+        # Step 04.snp_distance
+        "results/04.snp_distance/all_samples_snp_genotype.fasta",
+        "results/04.snp_distance/all_samples_snp_genotype_canettii_added.fasta",
+        "results/04.snp_distance/all_samples_snp_diff.txt",
+        "results/04.snp_distance/all_samples_snp_diff_canettii_added.txt",
+        "results/04.snp_distance/all_samples_snp_diff_heatmap.pdf",
+        "results/04.snp_distance/all_samples_snp_diff_heatmap.png",
+
+        # Step 05.lineage_dr
+        "results/05.lineage_dr/all.dr.indiv.itol.txt",
+        "results/05.lineage_dr/all.dr.itol.txt",
+        "results/05.lineage_dr/all.json",
+        "results/05.lineage_dr/all.lineage.itol.txt",
+        "results/05.lineage_dr/all.txt",
+        "results/05.lineage_dr/all.variants.txt",
+
+        # Step 06.phylotree
+        "results/06.phylotree/Phylogenetic_Tree.png",
+        "results/06.phylotree/Phylogenetic_Tree.pdf",
+
+        # Step 07.mix_infection
+        "results/07.mix_infection/ALL_MixedSampleSummary.txt",
+
+        # Step 08.summary_report
+        "results/08.summary_report/summary_report.html"
+
+###########
+# Modules #
+###########
+include: "rules/step00.data_cleaning.smk"
+include: "rules/step01.alignment.smk"
+include: "rules/step02.snp_calling.smk"
+include: "rules/step03.vcf_merging.smk"
+include: "rules/step04.snp_distance.smk"
+include: "rules/step05.lineage_dr.smk"
+include: "rules/step06.phylotree.smk"
+include: "rules/step07.mix_infection.smk"
+include: "rules/step08.summary_report.smk"

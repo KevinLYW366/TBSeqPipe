@@ -1,0 +1,11 @@
+name: phyloTree
+channels:
+  - defaults
+  - bioconda
+  - conda-forge
+dependencies:
+  - modeltest-ng=0.1.6=h19e7193_1
+  - raxml-ng=1.0.2=h32fcf60_1
+  - ete3=3.1.1=py36_0
+  - pandas=1.1.5=py36h284efc9_0
+show_channel_urls: true

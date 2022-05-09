@@ -1,0 +1,71 @@
+##### Workflow Configuration #####
+
+#######################
+# Required Parameters #
+#######################
+# sample list for analysis
+#sample_list: /path/to/sample_list_file
+sample_list: "config/sample_list_test.txt"
+# directory which stores input data
+#data_dir: /path/to/fastq_files
+data_dir: "/data/NAS01/lyw/project/MTB/rawdata/FW2021-001-P001/01.Cleandata"
+# fastq file name read id format (0: {sample}_1.fastq.gz; 1: {sample}_R1.fastq.gz)
+fastq_read_id_format: 0
+# fastq file name suffix format (0: {sample}_1.fastq.gz; 1: {sample}_1.fq.gz)
+fastq_suffix_format: 0
+## data_dir format (0: {dir}/{sample}_1.fastq.gz; 1: {dir}/{sample}/{sample}_1.fastq.gz)
+data_dir_format: 1
+# kraken database
+#kraken_db: /path/to/minikraken_20171019_8GB
+kraken_db: "/lvdata/lxc/work/Kraken/minikraken_20171019_8GB"
+
+##################################
+# Parameters with default values #
+##################################
+# whether to take data cleaning step using fastp or not (1/0)
+data_cleaning: 1
+
+# kraken filter feature (Only qualified samples will run the rest of workflow)
+## turn on/off (1/0)
+kraken_filter: 0
+## threshold (the minimum percentage of reads mapping to MTBC)
+kraken_threshold: 90
+
+# threads used by tools for each sample
+threads: 5
+
+# threads used by rule phylotree_modeltest and phylotree_raxml_all
+threads_phylotree: 20
+
+# Mycobacterium Tuberculosis Ref (H37Rv) genome FASTA file
+ref_genome: "resources/reference/mycobacterium_tuberculosis_H37Rv/H37Rv_complete_genome.fasta"
+
+# Mycobacterium Canettii Ref (CIPT 140060008) filtered snps list (alignment to H37Rv)
+canettii_flt_snps: "resources/reference/mycobacterium_canettii_CIPT_140060008/canettii.snps.flt"
+
+# Excluded regions bed file used in SNP filtering step
+## this final bed file is merged from UVP and TGU excluded regions uvp_list
+## more infomation in resources/bed_files/README.txt
+excluding_list: "resources/snp_filtering/excluding_regions.bed"
+## drug-resistance associated genes bed file from TB-Profiler
+## SNPs in drug-resistance associated genes would be removed before SNP distance calculation
+dr_genes_list: "resources/snp_filtering/dr_genes_regions.bed"
+
+# snpEff config file to use local MTB database
+snpEff_config: "resources/snpeff/snpeff-5.0-1/snpEff.config"
+
+# phyloTree model
+phylotree_model: "GTR+G"
+
+# MixInfect
+## refined regions of low confidence list to filter out false postive SNPs as much as possible to increase
+## the accuracy of mix infection detection
+## this list is from Marin, Maximillian et al. “Benchmarking the empirical accuracy of short-read sequencing across the M. tuberculosis genome.”
+## Bioinformatics (Oxford, England), btac023. 10 Jan. 2022, doi:10.1093/bioinformatics/btac023
+refined_low_confidence_regions: "resources/snp_filtering/refined_low_confidence_regions.bed"
+
+# GATK
+## BaseRecalibrator
+## snps.NC_000962.vcf is a vcf file providing a list of known SNP sites from other MTB strains for better BaseRecalibrator
+## this file is downloaded from UVP github repository (https://github.com/CPTR-ReSeqTB/UVP)
+gatk_base_recalibrator_vcf: "resources/gatk_BaseRecalibrator/snps.NC_000962.3.vcf"

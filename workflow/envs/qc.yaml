@@ -1,0 +1,11 @@
+name: qc
+channels:
+  - defaults
+  - bioconda
+  - conda-forge
+dependencies:
+  - fastqc=0.11.9=hdfd78af_1
+  - multiqc=1.11=pyhdfd78af_0
+  - qualimap=2.2.2d=hdfd78af_2
+  - samtools
+show_channel_urls: true

@@ -1,0 +1,9 @@
+name: R_pheatmap
+channels:
+  - defaults
+  - bioconda
+  - conda-forge
+dependencies:
+  - r-base=3.6.3=hbcea092_8
+  - r-pheatmap=1.0.12=r36h6115d3f_0
+show_channel_urls: true

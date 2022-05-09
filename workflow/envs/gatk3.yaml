@@ -1,0 +1,9 @@
+name: gatk3
+channels:
+  - defaults
+  - bioconda
+  - conda-forge
+dependencies:
+  - gatk=3.8=hdfd78af_11
+  - picard=2.26.10=hdfd78af_0
+show_channel_urls: true

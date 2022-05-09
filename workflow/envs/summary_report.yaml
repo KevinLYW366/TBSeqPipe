@@ -1,0 +1,11 @@
+name: summary_report
+channels:
+  - defaults
+  - bioconda
+  - conda-forge
+dependencies:
+  - pandoc=2.12=h06a4308_0
+  - r-rmarkdown=2.10=r40hc72bb7e_0
+  - r-dt=0.18=r40hc72bb7e_0
+  - r-mime
+show_channel_urls: true

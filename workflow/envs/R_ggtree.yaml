@@ -1,0 +1,10 @@
+name: R_ggtree
+channels:
+  - defaults
+  - bioconda
+  - conda-forge
+dependencies:
+  - r-ggplot2=3.1.1=r36h6115d3f_0
+  - r-ggnewscale=0.4.5=r36hc72bb7e_0
+  - bioconductor-ggtree=2.0.0=r36_0
+show_channel_urls: true

@@ -1,0 +1,10 @@
+name: MixInfect
+channels:
+  - defaults
+  - bioconda
+  - conda-forge
+dependencies:
+  - r-base=4.0.5=h8cab1ac_0
+  - r-mclust=5.4.7=r40h52d45c5_0
+  - r-stringr=1.4.0=r40hc72bb7e_2
+show_channel_urls: true
