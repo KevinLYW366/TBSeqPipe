@@ -24,7 +24,7 @@ conda config --add channels conda-forge
 
 #### Snakemake
 
-The Snakemake workflow management system is a tool to create reproducible and scalable data analyses. Detailed installation intsruction could be found [here](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html). Quick installation:
+The Snakemake workflow management system is a tool to create reproducible and scalable data analyses. Detailed intsruction could be found [here](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html). Quick installation:
 
 * Install mamba first (mamba provides a faster and more roboust way for conda packages installation):
 ```bash
