@@ -6,7 +6,7 @@ TBSeqPipe is a flexible and user-friendly pipeline based on snakemake workflow f
 
 ## Workflow
 
-![Workflow](https://github.com/KevinLYW366/TBSeqPipe/blob/master/flowchart/flowchart.png)
+![Workflow](/flowchart/flowchart.png)
 
 ## Installation
 
