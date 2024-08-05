@@ -37,10 +37,11 @@ rule tbprofiler_profile:
 # Collate results form multiple samples together
 rule tbprofiler_collate:
     input:
-        lambda wildcards: get_qualified_results("results/05.lineage_dr/results/{sample}.results.txt", wildcards),
-        lambda wildcards: get_qualified_results("results/05.lineage_dr/results/{sample}.results.pdf", wildcards),
-        lambda wildcards: get_qualified_results("results/05.lineage_dr/results/{sample}.results.json", wildcards),
-        lambda wildcards: get_qualified_results("results/05.lineage_dr/results/{sample}.results.csv", wildcards)
+        sample_list = "results/00.data_cleaning/kraken.samples",
+        txt = lambda wildcards: get_qualified_results("results/05.lineage_dr/results/{sample}.results.txt", wildcards),
+        pdf = lambda wildcards: get_qualified_results("results/05.lineage_dr/results/{sample}.results.pdf", wildcards),
+        json = lambda wildcards: get_qualified_results("results/05.lineage_dr/results/{sample}.results.json", wildcards),
+        csv = lambda wildcards: get_qualified_results("results/05.lineage_dr/results/{sample}.results.csv", wildcards)
     output:
         itol_dr_indiv = "results/05.lineage_dr/all.dr.indiv.itol.txt",
         itol_dr = "results/05.lineage_dr/all.dr.itol.txt",
@@ -49,7 +50,6 @@ rule tbprofiler_collate:
         txt = "results/05.lineage_dr/all.txt",
         variants = "results/05.lineage_dr/all.variants.txt"
     params:
-        sample_list = "results/00.data_cleaning/kraken.samples",
         prefix = "all",
         storage_dir = "results/05.lineage_dr/results"
     log:
@@ -58,7 +58,7 @@ rule tbprofiler_collate:
         "../envs/TBProfiler.yaml"
     shell:
         """
-        tb-profiler collate -p {params.prefix} --samples {params.sample_list} -d {params.storage_dir} --full 2> {log}
+        tb-profiler collate -p {params.prefix} --samples {input.sample_list} -d {params.storage_dir} --full 2> {log}
         mv all.dr.indiv.itol.txt all.dr.itol.txt all.lineage.itol.txt all.json all.txt all.variants.txt \
         results/05.lineage_dr/ 2>> {log}
         """
